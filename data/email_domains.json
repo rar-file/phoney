@@ -1,0 +1,12 @@
+{
+    "en_US": ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"],
+    "en_GB": ["gmail.com", "yahoo.co.uk", "hotmail.co.uk"],
+    "fr_FR": ["gmail.com", "hotmail.fr", "orange.fr"],
+    "de_DE": ["gmail.com", "web.de", "hotmail.de"],
+    "ja_JP": ["gmail.com", "yahoo.co.jp", "hotmail.co.jp"],
+    "zh_CN": ["gmail.com", "163.com", "qq.com"],
+    "ko_KR": ["gmail.com", "naver.com", "daum.net"],
+    "ar_EG": ["gmail.com", "yahoo.com", "hotmail.com"],
+    "hi_IN": ["gmail.com", "yahoo.in", "rediffmail.com"],
+    "default": ["gmail.com", "yahoo.com", "hotmail.com"]
+}
