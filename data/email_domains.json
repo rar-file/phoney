@@ -8,5 +8,16 @@
     "ko_KR": ["gmail.com", "naver.com", "daum.net"],
     "ar_EG": ["gmail.com", "yahoo.com", "hotmail.com"],
     "hi_IN": ["gmail.com", "yahoo.in", "rediffmail.com"],
+    "es_ES": ["gmail.com", "hotmail.es", "ya.com"],
+    "pt_BR": ["gmail.com", "hotmail.com", "bol.com.br"],
+    "ru_RU": ["gmail.com", "mail.ru", "yandex.ru"],
+    "it_IT": ["gmail.com", "libero.it", "virgilio.it"],
+    "nl_NL": ["gmail.com", "ziggo.nl", "kpnmail.nl"],
+    "tr_TR": ["gmail.com", "hotmail.com", "ttnet.com.tr"],
+    "id_ID": ["gmail.com", "yahoo.co.id", "telkom.net"],
+    "vi_VN": ["gmail.com", "yahoo.com", "fpt.vn"],
+    "pl_PL": ["gmail.com", "wp.pl", "onet.pl"],
+    "th_TH": ["gmail.com", "hotmail.com", "thaimail.com"],
+    "sv_SE": ["gmail.com", "hotmail.com", "spray.se"],
     "default": ["gmail.com", "yahoo.com", "hotmail.com"]
 }
