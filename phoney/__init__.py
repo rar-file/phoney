@@ -1,6 +1,4 @@
 
-
-
 __all__ = [
     'Phoney',
     'phoney',
@@ -9,6 +7,8 @@ __all__ = [
     'generate_email',
     'generate_age',
     'generate_profile'
+    'generate_uuid'
+    'generate_user_agent'
 ]
 
 from .person import generate_person
@@ -16,6 +16,8 @@ from .phone import generate_phone
 from .emailgen import generate_email
 from .age import generate_age
 from .create_profile import generate_profile
+from .uuidgen import generate_uuid
+from .agent import generate_user_agent
 
 class Phoney:
     """
