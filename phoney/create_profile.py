@@ -11,7 +11,7 @@ from .age import generate_age
 from .agent import generate_user_agent
 from .data_loader import get_available_locales
 from .username import generate_username
-from .finacial import FinancialDataGenerator
+from .financial import FinancialDataGenerator
 
 def generate_profile(locale=None, gender=None, domain=None, uuid_version=4):
     if locale is None:

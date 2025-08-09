@@ -9,6 +9,7 @@ __all__ = [
     'generate_user_agent',
     'generate_uuid',
     'generate_address',
+    'generate_financial_data',
     'generate_online_presence',
     'generate_username',
     'generate_password',
@@ -23,6 +24,7 @@ from .age import generate_age
 from .create_profile import generate_profile
 from .agent import generate_user_agent
 from .uuidgen import generate_uuid
+from .financial import generate_financial_data
 from .username import (
     generate_online_presence,
     generate_username,
