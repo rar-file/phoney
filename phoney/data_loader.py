@@ -56,7 +56,11 @@ def get_available_locales():
 
 def load_names(locale):
     """Load names for a specific locale."""
+<<<<<<< Updated upstream
     names = {}
+=======
+    names = {"male": [], "female": [], "last": []}
+>>>>>>> Stashed changes
     
     for region_dir in (DATA_DIR / "name_data").iterdir():
         locale_dir = region_dir / locale
