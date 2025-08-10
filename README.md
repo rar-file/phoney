@@ -1,11 +1,37 @@
 
-# Phoney - Realistic Fake Data Generator
+# 🌐 Phoney - Realistic Fake Data Generator
 
 [![PyPI Version](https://img.shields.io/pypi/v/phoney?color=blue)](https://pypi.org/project/phoney/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/phoney)](https://pypi.org/project/phoney/)
 
 Generate locale-aware fake personal data for testing, development, and anonymization. Perfect for populating databases and creating test users.
+
+---
+
+## 🆕 What’s new in 0.3.0
+
+- New identifiers: IMEI, VIN, EAN-13, UPC-A, ISBN-13
+- All identifier generators are importable directly:
+  - `from phoney import generate_imei, generate_vin, generate_ean13, generate_upca, generate_isbn13`
+- The `Phoney` class exposes both explicit and generate_* convenience methods:
+  - `p.imei()`, `p.vin()`, `p.ean13()`, `p.upca()`, `p.isbn13()`
+  - `p.generate_imei()`, `p.generate_vin()`, `p.generate_ean13()`, ...
+- Internet module hardened:
+  - Locale/country-aware IPv4/IPv6 with regional fallbacks; canonical IPv6 formatting
+  - TLD preferences per-country; robust domain/hostname/url builders
+- Career module: job titles, salary ranges (by locale), skills, employment history
+- CLI: `phoney-build-prefixes` to generate per-country IPv4/IPv6 prefix files from RIR datasets
+- Packaging cleanup and Python >= 3.10
+
+Quick test after install:
+```python
+from phoney import generate_imei, Phoney
+print(generate_imei())
+p = Phoney()
+print(p.imei())
+print(p.generate_imei())
+```
 
 ---
 
@@ -76,6 +102,13 @@ print(phoney.uuid())
 | `password()`        | Generate secure password                                         |
 | `social_handle()`   | Generate social media handle for a platform                      |
 | `online_presence()` | Generate dict of username, password, and social handles          |
+| `tld(locale=None)`  | Generate a TLD with locale bias (e.g., GB → co.uk, JP → .jp)     |
+| `domain(tld=None, locale=None)` | Generate a domain name honoring locale/TLD           |
+| `hostname(domain=None, locale=None)` | Generate a hostname + domain                   |
+| `url(scheme='https', domain=None, path_segments=None, query_params=None, locale=None)` | Generate a URL |
+| `ipv4(country=None, locale=None)` | Generate a public-looking IPv4; country/locale-aware |
+| `ipv6(global_unicast=True, country=None, locale=None)` | Generate a valid IPv6; country/locale-aware |
+| `mac()`             | Generate a locally-administered unicast MAC                      |
 
 ---
 
@@ -131,7 +164,7 @@ You can also import and use the following functions directly:
 **phoney/emailgen.py** — Email address generation
   - `generate_email(first_name, last_name, locale, age=None, birth_year=None, domain=None)`
 
-**phoney/finacial.py** — Financial data generator
+**phoney/financial.py** — Financial data generator
   - `FinancialDataGenerator(locale='en_US')` class: `.generate()` for credit card, IBAN, BIC, etc.
 
 **phoney/person.py** — Person name and gender generation
@@ -163,3 +196,86 @@ print(get_available_locales())
 
 **MIT** — Free for commercial and personal use.
 Developed by **rarfile** • [Report Issue](https://github.com/YTstyo/phoney/issues)
+
+---
+
+## 🧑‍💼 Career Module
+
+Generate job titles, salary ranges, skills, and employment histories. Data loads from `phoney/data/career` when present.
+
+Examples:
+```python
+from phoney import phoney
+phoney.job_title()
+phoney.salary(locale="en_US", family="software_engineer", level="Senior")
+phoney.skills("software_engineer", level="Senior", count=10)
+phoney.employment_history(years=8, locale="en_US", family="software_engineer")
+phoney.experience_level(7)
+```
+
+Data files:
+- `phoney/data/career/job_families.json`
+- `phoney/data/career/skills.json`
+- `phoney/data/career/salary_ranges.<locale>.json`
+- `phoney/data/career/companies.<locale>.txt`
+
+## 🌐 Internet Module
+
+Generate domains, URLs, hostnames, IP addresses, and MAC addresses. Data loads from `phoney/data/internet` when present.
+
+Examples:
+```python
+phoney.tld(locale="en_GB")            # → 'co.uk'
+phoney.domain(locale="en_GB")         # → 'nova-1abc.co.uk'
+phoney.hostname(locale="en_GB")       # → 'api-xyz.nova-1abc.co.uk'
+phoney.url(locale="ja_JP")            # → 'https://alpha-zz9.jp/api/q8h2?page=3'
+phoney.ipv4(locale="en_GB")           # country-aware IPv4 when data present; RIPE fallback otherwise
+phoney.ipv6(locale="ja_JP")           # country/region-aware IPv6; always valid global-unicast
+phoney.mac()
+```
+
+Data files:
+- `phoney/data/internet/tlds.txt`
+- `phoney/data/internet/words.txt`
+ - `phoney/data/internet/ipv4_prefixes.<CC>.txt`  (optional, one IPv4 CIDR per line)
+ - `phoney/data/internet/ipv6_prefixes.<CC>.txt`  (optional, one IPv6 CIDR per line)
+
+Behavior notes:
+- Locale parsing accepts `en_GB`, `en-GB`, or bare `GB`.
+- IPv4: If `ipv4_prefixes.<CC>.txt` exists, IPs are drawn from those ranges; otherwise a regional fallback is used (e.g., RIPE for Europe, APNIC for Asia/Pacific) and private/reserved ranges are avoided.
+- IPv6: If `ipv6_prefixes.<CC>.txt` exists, IPs are drawn from those ranges; otherwise a regional fallback /12 is used:
+  - RIPE (Europe): `2a00::/12`
+  - APNIC (Asia/Pacific): `2400::/12`
+  - ARIN (North America): `2600::/12`
+  - LACNIC (LatAm): `2800::/12`
+  - AFRINIC (Africa): `2c00::/12`
+  If no locale is provided, a valid global-unicast from `2000::/3` is generated. All IPv6 addresses are returned in canonical compressed form.
+
+## 🆔 Other Identifiers
+
+Generate common test identifiers.
+
+Examples:
+```python
+phoney.imei()                # 15-digit IMEI (Luhn-valid)
+phoney.vin()                 # 17-char VIN with check digit
+phoney.ean13()               # EAN-13 barcode
+phoney.upca()                # UPC-A barcode
+phoney.isbn13()              # ISBN-13 (default group '978')
+```
+
+Populate per-country prefixes automatically (offline):
+1) Download the latest delegated-*-extended-latest files from each RIR to a folder (e.g., `C:/rir-data`):
+  - delegated-apnic-extended-latest
+  - delegated-arin-extended-latest
+  - delegated-ripencc-extended-latest
+  - delegated-lacnic-extended-latest
+  - delegated-afrinic-extended-latest
+2) Run the builder CLI to generate `ipv4_prefixes.<CC>.txt` and `ipv6_prefixes.<CC>.txt` files:
+```powershell
+phoney-build-prefixes --input-dir C:/rir-data
+```
+You can also specify a custom output directory:
+```powershell
+phoney-build-prefixes --input-dir C:/rir-data --output-dir C:/my-prefixes
+```
