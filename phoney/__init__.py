@@ -1,21 +1,18 @@
 __all__ = [
-    'Phoney',
-    'phoney',
-    'generate_person',
-    'generate_phone',
-    'generate_email',
-    'generate_age',
-    'generate_profile',
-    'generate_user_agent',
-    'generate_uuid',
-    'generate_address',
-    'generate_financial_data',
-    'generate_online_presence',
-    'generate_username',
-    'generate_password',
-    'generate_social_handles'
+    'Phoney', 'phoney',
+    'generate_person', 'generate_phone', 'generate_email', 'generate_age',
+    'generate_profile', 'generate_user_agent', 'generate_uuid',
+    'generate_financial_data', 'generate_online_presence', 'generate_username',
+    'generate_password', 'generate_social_handles',
+    # Career
+    'generate_job_title', 'generate_salary', 'generate_employment_history', 'generate_skills', 'experience_level_from_years',
+    # Internet
+    'generate_tld', 'generate_domain', 'generate_hostname', 'generate_url', 'generate_ipv4', 'generate_ipv6', 'generate_mac',
+    # Identifiers
+    'generate_imei', 'generate_vin', 'generate_ean13', 'generate_upca', 'generate_isbn13'
 ]
 
+import sys
 from .person import generate_person
 from .phone import generate_phone
 from .emailgen import generate_email
@@ -31,6 +28,25 @@ from .username import (
     generate_password,
     generate_social_handles
 )
+from .career import (
+    generate_job_title,
+    generate_salary,
+    generate_employment_history,
+    generate_skills,
+    experience_level_from_years,
+)
+from .internet import (
+    generate_tld,
+    generate_domain,
+    generate_hostname,
+    generate_url,
+    generate_ipv4,
+    generate_ipv6,
+    generate_mac,
+)
+from .imei import generate_imei
+from .vin import generate_vin
+from .barcode import generate_ean13, generate_upca, generate_isbn13
 
 class Phoney:
     """
@@ -52,9 +68,18 @@ class Phoney:
         phoney.social_handle("John", "Smith", "twitter")
         phoney.online_presence("John", "Smith")
         
-        # Complete profiles
+    # Complete profiles
         phoney.profile(locale="de_DE")
     """
+    def __init__(self):
+        # Expose all generate_* functions directly on the instance for convenience
+        for _name, _fn in list(globals().items()):
+            if isinstance(_name, str) and _name.startswith("generate_") and callable(_fn):
+                # Instance attribute; avoids binding 'self' like methods do
+                try:
+                    setattr(self, _name, _fn)
+                except Exception:
+                    pass
     def first_name(self, gender=None, locale='en_US'):
         """
         Generate a first name.
@@ -238,5 +263,87 @@ class Phoney:
             first_name = p['first_name']
             last_name = p['last_name']
         return generate_online_presence(first_name, last_name)
+
+    # Career
+    def job_title(self, family=None, level=None, locale='en_US'):
+        return generate_job_title(locale=locale, family=family, level=level)
+
+    def salary(self, family=None, level=None, title=None, locale='en_US'):
+        return generate_salary(locale=locale, family=family, level=level, title=title)
+
+    def employment_history(self, years=10, locale='en_US', family=None, min_jobs=1, max_jobs=5):
+        return generate_employment_history(years=years, locale=locale, family=family, min_jobs=min_jobs, max_jobs=max_jobs)
+
+    def skills(self, family, level=None, count=None):
+        return generate_skills(family=family, level=level, count=count)
+
+    def experience_level(self, years):
+        return experience_level_from_years(years)
+
+    # Internet
+    def tld(self, locale=None):
+        return generate_tld(locale=locale)
+
+    def domain(self, tld=None, locale=None):
+        return generate_domain(tld=tld, locale=locale)
+
+    def hostname(self, domain=None, locale=None):
+        return generate_hostname(domain=domain, locale=locale)
+
+    def url(self, scheme='https', domain=None, path_segments=None, query_params=None, locale=None):
+        return generate_url(scheme=scheme, domain=domain, path_segments=path_segments, query_params=query_params, locale=locale)
+
+    def ipv4(self, country=None, locale=None):
+        return generate_ipv4(country=country, locale=locale)
+
+    def ipv6(self, global_unicast=True, country=None, locale=None):
+        return generate_ipv6(global_unicast=global_unicast, country=country, locale=locale)
+
+    def mac(self):
+        return generate_mac()
+
+    # Other identifiers
+    def imei(self, tac=None):
+        return generate_imei(tac=tac)
+
+    def vin(self):
+        return generate_vin()
+
+    def ean13(self, prefix=""):
+        return generate_ean13(prefix=prefix)
+
+    def upca(self, prefix=""):
+        return generate_upca(prefix=prefix)
+
+    def isbn13(self, group_prefix="978"):
+        return generate_isbn13(group_prefix=group_prefix)
+
+    # Dynamic aliasing for simplicity: allow p.generate_* to call module functions directly.
+    def __getattr__(self, name):
+        # If someone calls p.generate_imei(...) or any generate_* API,
+        # return the top-level function with the same name using the module object.
+        if name.startswith("generate_"):
+            mod = sys.modules.get(__name__)
+            if mod is not None:
+                fn = getattr(mod, name, None)
+                if callable(fn):
+                    return fn
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
+    # Explicit generate_* wrappers for identifiers for maximum compatibility
+    def generate_imei(self, tac=None):
+        return generate_imei(tac=tac)
+
+    def generate_vin(self):
+        return generate_vin()
+
+    def generate_ean13(self, prefix=""):
+        return generate_ean13(prefix=prefix)
+
+    def generate_upca(self, prefix=""):
+        return generate_upca(prefix=prefix)
+
+    def generate_isbn13(self, group_prefix="978"):
+        return generate_isbn13(group_prefix=group_prefix)
 
 phoney = Phoney()

@@ -2,7 +2,7 @@ import random
 import string
 import datetime
 
-__all__ = ['FinancialDataGenerator']
+__all__ = ['FinancialDataGenerator', 'generate_financial_data']
 
 class FinancialDataGenerator:
     def __init__(self, locale='en_US'):
@@ -78,6 +78,9 @@ class FinancialDataGenerator:
         bank_code = ''.join(random.choices(string.ascii_uppercase, k=4))
         location = random.choice(['MM', 'FF', 'XX']) + random.choice(string.ascii_uppercase)
         return f"{bank_code}{country}{location}"
+
+def generate_financial_data(locale: str = 'en_US'):
+    return FinancialDataGenerator(locale=locale).generate()
 
 # Example usage:
 if __name__ == "__main__":

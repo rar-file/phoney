@@ -1,5 +1,5 @@
 # phoney/agent.py
-__all__ = ['generate_agent']
+__all__ = ['generate_user_agent']
 """User agent generator for web scraping and testing."""
 import random
 
