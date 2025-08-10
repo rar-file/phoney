@@ -1,0 +1,16 @@
+{
+  "software_engineer": {
+    "Intern": {"min": 18000, "max": 30000, "currency": "EUR"},
+    "Junior": {"min": 45000, "max": 60000, "currency": "EUR"},
+    "Mid": {"min": 60000, "max": 80000, "currency": "EUR"},
+    "Senior": {"min": 80000, "max": 105000, "currency": "EUR"},
+    "Lead": {"min": 95000, "max": 125000, "currency": "EUR"},
+    "Manager": {"min": 90000, "max": 120000, "currency": "EUR"},
+    "Director": {"min": 110000, "max": 150000, "currency": "EUR"}
+  },
+  "data_scientist": {
+    "Junior": {"min": 42000, "max": 60000, "currency": "EUR"},
+    "Mid": {"min": 60000, "max": 80000, "currency": "EUR"},
+    "Senior": {"min": 80000, "max": 110000, "currency": "EUR"}
+  }
+}

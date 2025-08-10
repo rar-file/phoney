@@ -1,0 +1,3 @@
+# Sample IPv6 prefixes for United Kingdom (GB)
+# Add or replace with your validated datasets as needed
+2a00:23c0::/29

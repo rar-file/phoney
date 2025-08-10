@@ -1,0 +1,25 @@
+{
+  "software_engineer": {
+    "Intern": {"min": 18000, "max": 25000, "currency": "GBP"},
+    "Junior": {"min": 30000, "max": 45000, "currency": "GBP"},
+    "Mid": {"min": 45000, "max": 65000, "currency": "GBP"},
+    "Senior": {"min": 65000, "max": 90000, "currency": "GBP"},
+    "Lead": {"min": 80000, "max": 105000, "currency": "GBP"},
+    "Manager": {"min": 70000, "max": 100000, "currency": "GBP"},
+    "Director": {"min": 100000, "max": 140000, "currency": "GBP"}
+  },
+  "data_scientist": {
+    "Intern": {"min": 18000, "max": 25000, "currency": "GBP"},
+    "Junior": {"min": 30000, "max": 45000, "currency": "GBP"},
+    "Mid": {"min": 45000, "max": 65000, "currency": "GBP"},
+    "Senior": {"min": 65000, "max": 90000, "currency": "GBP"},
+    "Lead": {"min": 80000, "max": 105000, "currency": "GBP"},
+    "Manager": {"min": 70000, "max": 100000, "currency": "GBP"}
+  },
+  "product_manager": {
+    "Junior": {"min": 35000, "max": 50000, "currency": "GBP"},
+    "Mid": {"min": 50000, "max": 75000, "currency": "GBP"},
+    "Senior": {"min": 75000, "max": 100000, "currency": "GBP"},
+    "Manager": {"min": 80000, "max": 110000, "currency": "GBP"}
+  }
+}
