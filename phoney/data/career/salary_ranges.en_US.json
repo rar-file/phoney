@@ -1,0 +1,39 @@
+{
+  "software_engineer": {
+    "Intern": {"min": 20000, "max": 45000, "currency": "USD"},
+    "Junior": {"min": 70000, "max": 100000, "currency": "USD"},
+    "Mid": {"min": 100000, "max": 140000, "currency": "USD"},
+    "Senior": {"min": 140000, "max": 190000, "currency": "USD"},
+    "Lead": {"min": 170000, "max": 220000, "currency": "USD"},
+    "Staff": {"min": 180000, "max": 240000, "currency": "USD"},
+    "Principal": {"min": 200000, "max": 280000, "currency": "USD"},
+    "Manager": {"min": 160000, "max": 220000, "currency": "USD"},
+    "Director": {"min": 200000, "max": 280000, "currency": "USD"},
+    "VP": {"min": 250000, "max": 350000, "currency": "USD"},
+    "C-level": {"min": 300000, "max": 600000, "currency": "USD"}
+  },
+  "data_scientist": {
+    "Intern": {"min": 20000, "max": 45000, "currency": "USD"},
+    "Junior": {"min": 65000, "max": 95000, "currency": "USD"},
+    "Mid": {"min": 95000, "max": 135000, "currency": "USD"},
+    "Senior": {"min": 130000, "max": 180000, "currency": "USD"},
+    "Lead": {"min": 160000, "max": 210000, "currency": "USD"},
+    "Staff": {"min": 170000, "max": 230000, "currency": "USD"},
+    "Principal": {"min": 190000, "max": 260000, "currency": "USD"},
+    "Manager": {"min": 150000, "max": 210000, "currency": "USD"},
+    "Director": {"min": 190000, "max": 260000, "currency": "USD"},
+    "VP": {"min": 230000, "max": 330000, "currency": "USD"},
+    "C-level": {"min": 280000, "max": 550000, "currency": "USD"}
+  },
+  "product_manager": {
+    "Intern": {"min": 20000, "max": 45000, "currency": "USD"},
+    "Junior": {"min": 70000, "max": 105000, "currency": "USD"},
+    "Mid": {"min": 105000, "max": 145000, "currency": "USD"},
+    "Senior": {"min": 140000, "max": 190000, "currency": "USD"},
+    "Lead": {"min": 170000, "max": 220000, "currency": "USD"},
+    "Manager": {"min": 150000, "max": 210000, "currency": "USD"},
+    "Director": {"min": 190000, "max": 260000, "currency": "USD"},
+    "VP": {"min": 230000, "max": 330000, "currency": "USD"},
+    "C-level": {"min": 280000, "max": 550000, "currency": "USD"}
+  }
+}

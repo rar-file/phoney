@@ -1,0 +1,24 @@
+{
+  "software_engineer": [
+    "Software Engineer", "Backend Engineer", "Frontend Engineer", "Full-Stack Engineer",
+    "Platform Engineer", "Systems Engineer", "Mobile Engineer", "Data Engineer",
+    "Embedded Engineer", "Site Reliability Engineer", "DevOps Engineer"
+  ],
+  "data_scientist": ["Data Scientist", "ML Engineer", "Data Analyst", "Research Scientist"],
+  "product_manager": ["Product Manager", "Technical Product Manager"],
+  "devops_engineer": ["DevOps Engineer", "Site Reliability Engineer", "Cloud Engineer"],
+  "designer": ["Product Designer", "UX Designer", "UI Designer", "UX Researcher"],
+  "qa_engineer": ["QA Engineer", "SDET", "Test Engineer"],
+  "security_engineer": ["Security Engineer", "Application Security Engineer", "Security Analyst"],
+  "it_support": ["IT Support Specialist", "Help Desk Technician"],
+  "sales": ["Sales Representative", "Account Executive", "Sales Engineer"],
+  "marketing": ["Marketing Specialist", "Growth Marketer", "SEO Specialist", "Content Marketer"],
+  "hr": ["HR Specialist", "Recruiter", "People Operations"],
+  "finance": ["Financial Analyst", "Accountant", "Controller"],
+  "operations": ["Operations Analyst", "Operations Manager"],
+  "business_analyst": ["Business Analyst"],
+  "project_manager": ["Project Manager", "Program Manager"],
+  "customer_success": ["Customer Success Manager", "Customer Support Specialist"],
+  "technical_writer": ["Technical Writer", "Documentation Specialist"],
+  "network_engineer": ["Network Engineer", "Network Administrator"]
+}

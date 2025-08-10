@@ -1,0 +1,20 @@
+{
+  "software_engineer": ["Python", "JavaScript", "TypeScript", "Java", "C#", "Go", "C++", "SQL", "REST", "GraphQL", "Docker", "Kubernetes", "AWS", "Azure", "GCP", "Microservices", "CI/CD", "Unit Testing", "TDD", "Linux", "Git"],
+  "data_scientist": ["Python", "R", "Pandas", "NumPy", "scikit-learn", "TensorFlow", "PyTorch", "SQL", "Statistics", "A/B Testing", "Feature Engineering", "Data Visualization"],
+  "product_manager": ["Roadmapping", "User Research", "A/B Testing", "Analytics", "Backlog Management", "Stakeholder Management", "PRD Writing", "KPIs"],
+  "devops_engineer": ["CI/CD", "Kubernetes", "Docker", "Terraform", "Ansible", "Prometheus", "Grafana", "Linux", "SRE", "AWS", "Azure", "GCP", "IaC"],
+  "designer": ["Figma", "Sketch", "Wireframing", "Prototyping", "UX Research", "UI Design", "Design Systems"],
+  "qa_engineer": ["Test Automation", "Selenium", "Cypress", "API Testing", "Performance Testing", "Unit Testing", "Playwright"],
+  "security_engineer": ["Threat Modeling", "AppSec", "IAM", "SIEM", "Vulnerability Management", "Penetration Testing", "OWASP Top 10"],
+  "it_support": ["Windows", "macOS", "Networking", "Active Directory", "Ticketing Systems", "Scripting", "M365"],
+  "sales": ["Prospecting", "CRM", "Negotiation", "Presentation", "Lead Qualification", "Forecasting", "Discovery"],
+  "marketing": ["SEO", "SEM", "Content Marketing", "Email Marketing", "Analytics", "Copywriting", "Social Media"],
+  "hr": ["Recruiting", "Onboarding", "Employee Relations", "HRIS", "Compensation & Benefits", "Performance Management"],
+  "finance": ["Financial Modeling", "Accounting", "Budgeting", "Forecasting", "Excel", "GAAP"],
+  "operations": ["Process Improvement", "Project Management", "Logistics", "KPI Tracking", "SOPs"],
+  "business_analyst": ["Requirements Gathering", "Process Mapping", "SQL", "Reporting", "Stakeholder Management"],
+  "project_manager": ["Project Planning", "Risk Management", "Scheduling", "Agile", "Scrum", "PMBOK"],
+  "customer_success": ["Onboarding", "Account Management", "Renewals", "Escalation Management", "NPS"],
+  "technical_writer": ["Documentation", "API Writing", "DITA", "Editing", "Information Architecture"],
+  "network_engineer": ["Routing", "Switching", "Firewalls", "VPN", "BGP", "OSPF", "Wi-Fi"]
+}

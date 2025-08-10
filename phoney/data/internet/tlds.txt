@@ -1,0 +1,19 @@
+# Common and regional TLDs
+com
+net
+org
+io
+dev
+app
+ai
+co
+info
+co.uk
+de
+fr
+es
+it
+nl
+br
+jp
+kr
