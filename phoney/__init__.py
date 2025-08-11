@@ -4,6 +4,8 @@ __all__ = [
     'generate_profile', 'generate_user_agent', 'generate_uuid',
     'generate_financial_data', 'generate_online_presence', 'generate_username',
     'generate_password', 'generate_social_handles',
+    # Resume
+    'generate_resume',
     # Career
     'generate_job_title', 'generate_salary', 'generate_employment_history', 'generate_skills', 'experience_level_from_years',
     # Internet
@@ -28,6 +30,7 @@ from .username import (
     generate_password,
     generate_social_handles
 )
+from .resume import generate_resume
 from .career import (
     generate_job_title,
     generate_salary,
@@ -184,6 +187,10 @@ class Phoney:
             dict: Profile with name, gender, age, birthdate, email, phone, locale.
         """
         return generate_profile(locale, gender)
+
+    def resume(self, locale: str | None = None, family: str | None = None, years: int = 8, format: str = 'dict'):
+        """Generate a resume/CV. format in {'dict','text'}."""
+        return generate_resume(locale=locale, family=family, years=years, format=format)
 
     def user_agent(self, device_type="desktop"):
         """
