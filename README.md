@@ -2,6 +2,7 @@
 # 🌐 Phoney - Realistic Fake Data Generator
 
 [![PyPI Version](https://img.shields.io/pypi/v/phoney?color=blue)](https://pypi.org/project/phoney/)
+[![PyPI Downloads](https://static.pepy.tech/badge/phoney)](https://pepy.tech/projects/phoney)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/phoney)](https://pypi.org/project/phoney/)
 
