@@ -1,5 +1,8 @@
+# 🌐 Phoney — Realistic Fake Data Generator
 
-# 🌐 Phoney - Realistic Fake Data Generator
+Zero-dependency Python library for locale-aware fake personal data. 50+ locales, complete profiles, identifiers (IMEI, VIN, ISBN-13, EAN-13, UPC-A), and deterministic-friendly APIs — for testing, demos, and anonymization pipelines.
+
+`pip install phoney`
 
 [![PyPI Version](https://img.shields.io/pypi/v/phoney?color=blue)](https://pypi.org/project/phoney/)
 [![PyPI Downloads](https://static.pepy.tech/badge/phoney)](https://pepy.tech/projects/phoney)
