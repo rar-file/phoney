@@ -31,7 +31,8 @@ fake.vin()                       # 'LEJAAPPL4LV538323'  (valid check digit)
 
 ## ✨ Why Phoney?
 
-- **🌍 Locale-aware**: names for 19 locales and correctly formatted phone numbers for 43 countries.
+- **🌍 Locale-aware**: real names and correctly formatted phone numbers for 43 countries, written in each language's own script and name order.
+- **🎲 Huge variety**: 47,000+ given names and 122,000+ surnames, roughly 717 million distinct full names, all drawn from real, openly licensed name datasets.
 - **✅ Valid where it matters**: IMEI, VIN, EAN-13, UPC-A, ISBN-13 and card numbers all pass their checksums.
 - **🧑 Whole people, not just fields**: one call builds a consistent profile in which the email and username come from the person's own name.
 - **💼 Career data**: job titles, salary ranges, skills, employment history and full résumés.
@@ -200,14 +201,24 @@ Each method also has a `generate_*` twin on the instance and at module level: `f
 
 ## 🌍 Locales
 
-| Region | Locales with name data |
-|---|---|
-| Europe | `da_DK` `de_DE` `en_GB` `es_ES` `fi_FI` `fr_FR` `it_IT` `nl_NL` `pl_PL` `ru_RU` `sv_SE` `tr_TR` |
-| Americas | `en_US` `pt_BR` |
-| Asia | `hi_IN` `ja_JP` `ko_KR` `zh_CN` |
-| Middle East | `ar_EG` |
+Names and phone numbers cover the same 43 locales:
 
-**Phone numbers** cover 43 countries across every continent (see `phoney.phone.COUNTRY_CODES`).
+| Region | Locales |
+|---|---|
+| Europe | `cs_CZ` `da_DK` `de_DE` `el_GR` `en_GB` `es_ES` `fi_FI` `fr_FR` `hu_HU` `it_IT` `nl_NL` `no_NO` `pl_PL` `pt_PT` `ro_RO` `ru_RU` `sv_SE` `tr_TR` |
+| Americas | `en_CA` `en_US` `es_AR` `es_CL` `es_CO` `es_MX` `pt_BR` |
+| Asia | `fil_PH` `hi_IN` `id_ID` `ja_JP` `ko_KR` `ms_MY` `th_TH` `vi_VN` `zh_CN` `zh_TW` |
+| Middle East | `ar_EG` `ar_SA` `he_IL` |
+| Africa | `en_ZA` `ha_NG` `sw_KE` |
+| Oceania | `en_AU` `en_NZ` |
+
+Names follow local conventions:
+- **Script:** Cyrillic, Greek, Arabic, Hebrew, Devanagari, Thai, Hangul and CJK where the language uses it.
+- **Order:** family name first for Chinese, Japanese, Korean, Vietnamese and Hungarian (`王伟`, `Nguyễn Văn An`, `Nagy Gábor`).
+- **Feminine surnames:** Russian, Polish, Czech and Greek women get the feminine form (`Иванова`, `Kowalska`, `Nováková`).
+- **Patronymics:** Malay names use `bin`/`binti` (`Aisyah binti Umar`).
+
+Name lists come from Faker (MIT), the CC0 popular-names-by-country dataset, US Social Security baby names, public-domain surname lists and an MIT-licensed Japanese name dataset. See [`phoney/data/name_data/NOTICE.md`](https://github.com/rar-file/phoney/blob/main/phoney/data/name_data/NOTICE.md) for sources and licences. `tools/build_name_data.py` rebuilds them.
 **Salaries** are localised for `en_US`, `en_GB` and `de_DE`. Unknown locales fall back to generic data rather than raising an error.
 
 ```python
@@ -251,6 +262,18 @@ Every push and pull request runs the tests on Python 3.10–3.14 and checks that
 ## 📝 Changelog
 
 <details open>
+<summary><b>0.4.0</b>: real names for 43 countries</summary>
+
+- Name data rebuilt from real, openly licensed datasets: 43 locales (up from 19), 47,000+ given names and 122,000+ surnames
+- Family-name-first order for Chinese, Japanese, Korean, Vietnamese and Hungarian
+- Feminine surname forms for Russian, Polish, Czech and Greek; Malay `bin`/`binti` patronymics
+- `generate_person()` now also returns `full_name`
+- Fixed broken lists: Egyptian names were a copy of the US list, Japanese had 2 names, Hindi names had lost their vowel signs, and French first names were run together
+- Includes all 0.3.2 fixes below (0.3.2 was not published to PyPI)
+
+</details>
+
+<details>
 <summary><b>0.3.2</b>: bug fixes and cleanup</summary>
 
 - Names are now capitalised (`Marco Rossi`, not `marco rossi`), including Turkish `İ`/`I`

@@ -48,7 +48,7 @@ def generate_profile(locale=None, gender=None, domain=None, uuid_version=4):
         'uuid': profile_uuid,
         'first_name': first_name,
         'last_name': last_name,
-        'full_name': f"{first_name} {last_name}",
+        'full_name': person['full_name'],
         'gender': gender,
         'age': age,
         'birthdate': birthdate.isoformat(),

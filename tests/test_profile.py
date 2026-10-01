@@ -14,6 +14,7 @@ from phoney import (
     generate_username,
     get_available_locales,
 )
+from phoney.person import format_full_name
 
 EMAIL_RE = re.compile(r"^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$")
 
@@ -42,7 +43,7 @@ def test_profile(locale):
             assert key in profile, key
         assert EMAIL_RE.match(profile["email"]), profile["email"]
         assert profile["phone"].startswith("+")
-        assert profile["full_name"] == f"{profile['first_name']} {profile['last_name']}"
+        assert profile["full_name"] == format_full_name(profile["first_name"], profile["last_name"], profile["locale"])
 
 
 def test_profile_gender():

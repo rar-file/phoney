@@ -1,4 +1,4 @@
-__version__ = "0.3.2"
+__version__ = "0.4.0"
 
 __all__ = [
     'Phoney', 'phoney',
@@ -116,8 +116,7 @@ class Phoney:
         Returns:
             str: Full name.
         """
-        p = generate_person(locale, gender)
-        return f"{p['first_name']} {p['last_name']}"
+        return generate_person(locale, gender)['full_name']
 
     def gender(self, locale='en_US'):
         """

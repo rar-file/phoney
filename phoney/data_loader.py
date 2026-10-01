@@ -44,6 +44,7 @@ def load_states():
 import os
 import random
 import re
+import unicodedata
 import json
 from collections import defaultdict
 
@@ -54,8 +55,12 @@ _NAME_SEPARATORS = re.compile(r"([\s'\-])")
 def _capitalize_name(name, locale=''):
     """Capitalize each part of a name ("jean-luc" -> "Jean-Luc").
 
-    Scripts without letter case (CJK, Devanagari, ...) pass through unchanged.
+    Names that already contain capitals ("van Dijk", "McDonald") are kept as
+    written, and scripts without letter case (CJK, Devanagari, ...) pass
+    through unchanged.
     """
+    if name != name.lower():
+        return name
     parts = []
     for part in _NAME_SEPARATORS.split(name):
         if part:
@@ -65,7 +70,7 @@ def _capitalize_name(name, locale=''):
                 first = '\u0130'
             part = first.upper() + part[1:]
         parts.append(part)
-    return ''.join(parts)
+    return unicodedata.normalize('NFC', ''.join(parts))
 
 def get_available_locales():
     """Get all available locales from the name_data directory."""

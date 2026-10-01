@@ -40,6 +40,8 @@ dependencies = []
 
 [project.optional-dependencies]
 test = ["pytest>=7"]
+# Only needed to rebuild phoney/data/name_data with tools/build_name_data.py
+build-data = ["faker==40.40.0"]
 
 [project.scripts]
 phoney-build-prefixes = "phoney.tools.build_prefixes:main"
