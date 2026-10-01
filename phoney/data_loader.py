@@ -44,6 +44,7 @@ def load_states():
 import os
 import random
 import re
+import unicodedata
 import json
 from collections import defaultdict
 
@@ -69,7 +70,7 @@ def _capitalize_name(name, locale=''):
                 first = '\u0130'
             part = first.upper() + part[1:]
         parts.append(part)
-    return ''.join(parts)
+    return unicodedata.normalize('NFC', ''.join(parts))
 
 def get_available_locales():
     """Get all available locales from the name_data directory."""

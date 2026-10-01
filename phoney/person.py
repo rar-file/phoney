@@ -42,6 +42,9 @@ def generate_person(locale, gender=None):
     last_name = None
     if names['last']:
         last_name = random.choice(names['last'])
+    elif locale.startswith('ms') and names['male']:
+        # Malay names are patronymic: "bin"/"binti" + the father's given name.
+        last_name = ('binti ' if gender == 'female' else 'bin ') + random.choice(names['male'])
     
     if not last_name:
         if locale not in _fallback_names_cache:

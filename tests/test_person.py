@@ -21,10 +21,12 @@ def test_names_are_not_all_lowercase(locale):
     for _ in range(25):
         person = generate_person(locale)
         for name in (person["first_name"], person["last_name"]):
-            first = name[0]
-            # Only cased scripts (Latin, Cyrillic, ...) can be checked.
-            if first.lower() != first.upper():
-                assert first.isupper(), f"{locale}: {name!r}"
+            # Only cased scripts (Latin, Cyrillic, ...) can be checked. Surname
+            # particles may stay lowercase ("van Veen", "da Silva"), so require
+            # at least one capitalised word.
+            words = [w for w in name.replace("-", " ").split() if w[0].lower() != w[0].upper()]
+            if words:
+                assert any(w[0].isupper() for w in words), f"{locale}: {name!r}"
 
 
 @pytest.mark.parametrize("gender", ["male", "female"])
@@ -55,7 +57,7 @@ def test_load_names_returns_all_keys():
         ("佐藤", "ja_JP", "佐藤"),
         ("irmak", "tr_TR", "İrmak"),
         ("ırmak", "tr_TR", "Irmak"),
-        ("i̇de", "tr_TR", "İde"),
+        ("i\u0307de", "tr_TR", "\u0130de"),
         ("irmak", "en_US", "Irmak"),
     ],
 )
@@ -125,3 +127,10 @@ def test_full_name_key_matches_locale_order():
 def test_already_cased_names_are_kept():
     assert _capitalize_name("van Dijk") == "van Dijk"
     assert _capitalize_name("McDonald") == "McDonald"
+
+
+def test_capitalized_turkish_i_is_nfc():
+    import unicodedata
+
+    assert _capitalize_name("i̇hsan", "tr_TR") == "İhsan"
+    assert unicodedata.is_normalized("NFC", _capitalize_name("i̇hsan", "tr_TR"))
