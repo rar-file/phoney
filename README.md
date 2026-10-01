@@ -1,302 +1,235 @@
-# 🌐 Phoney — Realistic Fake Data Generator
+<div align="center">
 
-Zero-dependency Python library for locale-aware fake personal data. Names for 19 locales, phone numbers for 43 countries, complete profiles, and checksum-valid identifiers (IMEI, VIN, ISBN-13, EAN-13, UPC-A) — for testing, demos, and anonymization pipelines.
+# 📞 Phoney
 
-`pip install phoney`
+**Realistic, locale-aware fake data for Python, with zero dependencies.**
+
+Names, phone numbers, emails, full profiles, résumés, network data and checksum-valid identifiers for tests, demos, seed data and anonymisation.
 
 [![PyPI Version](https://img.shields.io/pypi/v/phoney?color=blue)](https://pypi.org/project/phoney/)
-[![PyPI Downloads](https://static.pepy.tech/badge/phoney)](https://pepy.tech/projects/phoney)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/phoney)](https://pypi.org/project/phoney/)
 [![Tests](https://github.com/rar-file/phoney/actions/workflows/tests.yml/badge.svg)](https://github.com/rar-file/phoney/actions/workflows/tests.yml)
+[![PyPI Downloads](https://static.pepy.tech/badge/phoney)](https://pepy.tech/projects/phoney)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/rar-file/phoney/blob/main/LICENSE)
 
-Generate locale-aware fake personal data for testing, development, and anonymization. Perfect for populating databases and creating test users.
-
----
-
-## 🆕 What’s new in 0.3.2
-
-Bug fixes and project cleanup:
-
-- Names are now capitalized (`Marco Rossi`, not `marco rossi`), including Turkish dotted/dotless `İ`/`I`
-- Phone numbers for `en_AU`, `fil_PH` and `zh_TW` no longer fail with `ValueError`; `id_ID` numbers no longer get a doubled leading `8`
-- No more `DEBUG:` lines printed to stdout from phone generation
-- VIN check digits are now correct for VINs containing the letters J–Z
-- `generate_age(min_age, max_age)` never returns an age below `min_age`, and rejects `min_age > max_age`
-- `Phoney().password(length)` returns exactly `length` characters; `generate_password(min_length)` no longer crashes when `min_length` > 18
-- `phoney.__version__` is available
-- New pytest suite and GitHub Actions CI (Python 3.10–3.14); releases publish to PyPI from GitHub
-
-## What’s new in 0.3.0
-
-- New identifiers: IMEI, VIN, EAN-13, UPC-A, ISBN-13
-- All identifier generators are importable directly:
-  - `from phoney import generate_imei, generate_vin, generate_ean13, generate_upca, generate_isbn13`
-- The `Phoney` class exposes both explicit and generate_* convenience methods:
-  - `p.imei()`, `p.vin()`, `p.ean13()`, `p.upca()`, `p.isbn13()`
-  - `p.generate_imei()`, `p.generate_vin()`, `p.generate_ean13()`, ...
-- Internet module hardened:
-  - Locale/country-aware IPv4/IPv6 with regional fallbacks; canonical IPv6 formatting
-  - TLD preferences per-country; robust domain/hostname/url builders
-- Career module: job titles, salary ranges (by locale), skills, employment history
-- CLI: `phoney-build-prefixes` to generate per-country IPv4/IPv6 prefix files from RIR datasets
-- Packaging cleanup and Python >= 3.10
-
-Quick test after install:
-```python
-from phoney import generate_imei, Phoney
-print(generate_imei())
-p = Phoney()
-print(p.imei())
-print(p.generate_imei())
-```
-
----
-
-## ✨ Features
-
-- **Names for 19 locales** and **phone numbers for 43 countries**, including `en_US`, `fr_FR`, `ja_JP`, `de_DE`, and more
-- **Complete profiles** with names, emails, phones, birthdates, and online presence
-- **Gender-specific** name generation
-- **Usernames, passwords, UUIDs, user agents, and social handles**
-- **Financial data** (credit card, IBAN, BIC, etc.)
-- **Zero dependencies** — lightweight and fast
-
----
-
-## 📦 Installation
+</div>
 
 ```bash
 pip install phoney
 ```
 
+```python
+from phoney import Phoney
+
+fake = Phoney()
+
+fake.full_name(locale="en_GB")   # 'Nicola Sullivan'
+fake.phone(locale="en_GB")       # '+44 7789 328792'
+fake.email(locale="it_IT")       # 'annarossi7682@gmail.com'
+fake.vin()                       # 'LEJAAPPL4LV538323'  (valid check digit)
+```
+
+## ✨ Why Phoney?
+
+- **🌍 Locale-aware**: names for 19 locales and correctly formatted phone numbers for 43 countries.
+- **✅ Valid where it matters**: IMEI, VIN, EAN-13, UPC-A, ISBN-13 and card numbers all pass their checksums.
+- **🧑 Whole people, not just fields**: one call builds a consistent profile in which the email and username come from the person's own name.
+- **💼 Career data**: job titles, salary ranges, skills, employment history and full résumés.
+- **🌐 Network data**: domains, URLs, IPv4/IPv6 from real regional ranges, and MAC addresses.
+- **🪶 Zero dependencies**: pure standard library, Python 3.10+.
+
 ---
 
-## 🚀 Basic Usage
+## 🚀 Quick start
+
+### A complete profile
 
 ```python
 from phoney import Phoney
 
-phoney = Phoney()
-
-# Individual data
-print(phoney.first_name(locale="it_IT"))  # → "Marco"
-print(phoney.phone(locale="ja_JP"))       # → "+81 90 1234 5678"
-print(phoney.email(first_name="Anna", last_name="Rossi", locale="it_IT"))
-
-# Complete profile
-profile = phoney.profile(locale="es_ES")
-print(profile)
-
-# Online presence
-print(phoney.username("John", "Smith"))
-print(phoney.password())
-print(phoney.social_handle("John", "Smith", "twitter"))
-print(phoney.online_presence("John", "Smith"))
-
-# User agent and UUID
-print(phoney.user_agent())
-print(phoney.uuid())
+fake = Phoney()
+fake.profile(locale="en_GB")
 ```
-
----
-
-## 📚 High-Level API: `Phoney` Class
-
-| Method              | Description                                                      |
-|---------------------|------------------------------------------------------------------|
-| `first_name()`      | Generate first name (optionally by gender/locale)                |
-| `last_name()`       | Generate last name (optionally by gender/locale)                 |
-| `full_name()`       | Generate full name                                               |
-| `gender()`          | Generate gender                                                  |
-| `phone()`           | Generate phone number for locale                                 |
-| `email()`           | Generate email address                                           |
-| `age()`             | Generate random age                                              |
-| `birthdate()`       | Generate random birthdate                                        |
-| `profile()`         | Generate complete profile (see below)                            |
-| `user_agent()`      | Generate browser user agent string                               |
-| `uuid()`            | Generate UUID (v1, v3, v4, v5)                                   |
-| `username()`        | Generate username from names                                     |
-| `password()`        | Generate secure password                                         |
-| `social_handle()`   | Generate social media handle for a platform                      |
-| `online_presence()` | Generate dict of username, password, and social handles          |
-| `tld(locale=None)`  | Generate a TLD with locale bias (e.g., GB → co.uk, JP → .jp)     |
-| `domain(tld=None, locale=None)` | Generate a domain name honoring locale/TLD           |
-| `hostname(domain=None, locale=None)` | Generate a hostname + domain                   |
-| `url(scheme='https', domain=None, path_segments=None, query_params=None, locale=None)` | Generate a URL |
-| `ipv4(country=None, locale=None)` | Generate a public-looking IPv4; country/locale-aware |
-| `ipv6(global_unicast=True, country=None, locale=None)` | Generate a valid IPv6; country/locale-aware |
-| `mac()`             | Generate a locally-administered unicast MAC                      |
-
----
-
-## 🧩 Profile Structure
 
 ```python
 {
-  'first_name': 'Sophie',
-  'last_name': 'Martin',
-  'gender': 'female',
-  'age': 34,
-  'birthdate': datetime.date(1990, 5, 12),
-  'email': 'sophie.martin@example.fr',
-  'phone': '+33 612 345 678',
-  'locale': 'fr_FR'
+    'uuid': '8fc39f2e-e8b2-4bd0-bf92-a84f5844ee4a',
+    'first_name': 'Nicola',
+    'last_name': 'Sullivan',
+    'full_name': 'Nicola Sullivan',
+    'gender': 'female',
+    'age': 39,
+    'birthdate': '1987-07-12',
+    'birth_year': 1987,
+    'email': 'nicolasullivan62@gmail.com',
+    'phone': '+44 7789 328792',
+    'user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 ...',
+    'username': 'nicnavillus',
+    'credit_card': {'issuer': 'Visa', 'number': '4033907579383471', 'expiry': '01/2027', 'cvv': '468'},
+    'locale': 'en_GB',
+    'created_at': '2026-10-01T15:03:19.842651'
 }
 ```
 
----
-
-## 🛠️ Low-Level API: Direct Functions
-
-You can also import and use the following functions directly:
-
-- `generate_person(locale, gender=None)` — dict with first/last name and gender
-- `generate_phone(locale)` — phone number for locale
-- `generate_email(first_name, last_name, locale, age=None, birth_year=None)`
-- `generate_age(min_age=18, max_age=80)` — tuple of (age, birthdate)
-- `generate_profile(locale, gender=None, domain=None, uuid_version=4)` — full profile
-- `generate_user_agent(device_type="desktop")` — browser user agent string
-- `generate_uuid(version=4, domain="example.com", name=None)` — UUID string
-- `generate_username(first_name, last_name, locale='en_US')`
-- `generate_password(min_length=12, max_length=18)`
-- `generate_social_handles(first_name, last_name, platform)`
-- `generate_online_presence(first_name, last_name)`
-
----
-
-## 📦 Modules Overview
-**phoney/age.py** — Age and birthdate generation
-  - `generate_age(min_age=18, max_age=80)`
-
-**phoney/agent.py** — User agent string generation
-  - `generate_user_agent(device_type="desktop")`
-
-**phoney/create_profile.py** — Complete profile generation
-  - `generate_profile(locale, gender=None, domain=None, uuid_version=4)`
-
-**phoney/data_loader.py** — Loads locale data, names, phone formats, email domains
-  - `load_countries()`, `load_streets()`, `load_cities()`, `load_states()`
-  - `get_available_locales()`, `load_names(locale)`, `load_phone_formats()`, `load_email_domains()`
-
-**phoney/emailgen.py** — Email address generation
-  - `generate_email(first_name, last_name, locale, age=None, birth_year=None, domain=None)`
-
-**phoney/financial.py** — Financial data generator
-  - `FinancialDataGenerator(locale='en_US')` class: `.generate()` for credit card, IBAN, BIC, etc.
-
-**phoney/person.py** — Person name and gender generation
-  - `generate_person(locale, gender=None)`
-
-**phoney/phone.py** — Phone number generation
-  - `generate_phone(locale=None, max_attempts=500)`
-
-**phoney/username.py** — Username, password, and online presence generation
-  - `generate_username()`, `generate_password()`, `generate_social_handles()`, `generate_online_presence()`
-
-**phoney/uuidgen.py** — UUID generation
-  - `generate_uuid(version=4, domain="example.com", name=None)`
-
----
-
-## 🌍 Supported Locales
-
-Name data ships for 19 locales: `ar_EG`, `da_DK`, `de_DE`, `en_GB`, `en_US`, `es_ES`, `fi_FI`, `fr_FR`, `hi_IN`, `it_IT`, `ja_JP`, `ko_KR`, `nl_NL`, `pl_PL`, `pt_BR`, `ru_RU`, `sv_SE`, `tr_TR`, `zh_CN`. Phone numbers cover 43 countries (see `phoney.phone.COUNTRY_CODES`). Unknown locales fall back to generic data rather than raising. To list the name locales:
+### People and contact details
 
 ```python
-from phoney.data_loader import get_available_locales
-print(get_available_locales())
+fake.first_name(locale="it_IT")                 # 'Napoleone'
+fake.full_name(gender="female", locale="de_DE") # 'Jeannette Trommler'
+fake.full_name(locale="ru_RU")                  # 'Копылова Меркушева'
+fake.phone(locale="en_US")                      # '+1 (291) 855-7893'
+fake.phone(locale="fr_FR")                      # '+33 353 045 340'
+fake.email(first_name="Anna", last_name="Rossi", locale="it_IT")  # 'annarossi7682@gmail.com'
+fake.age(min_age=18, max_age=30)                # 24
+fake.birthdate()                                # datetime.date(1987, 7, 12)
+```
+
+### Online presence
+
+```python
+fake.username("John", "Smith")                  # 'joHnSMITh'
+fake.password(16)                               # 'F*w#yYt!>#332tyk'
+fake.social_handle("John", "Smith", "twitter")  # '@john_smith'
+fake.online_presence("John", "Smith")           # username, password and handles for 7 platforms
+fake.user_agent("mobile")                       # 'Mozilla/5.0 (iPhone; CPU iPhone OS 17 like Mac OS X) ...'
+fake.uuid()                                     # 'ba5684a5-a08f-4191-ab8d-c5d5c0d30795'
+```
+
+### Identifiers and finance
+
+```python
+fake.imei()     # '193036426212990'   15 digits, Luhn-valid
+fake.vin()      # 'LEJAAPPL4LV538323' 17 chars, valid check digit, no I/O/Q
+fake.ean13()    # '6405622415494'
+fake.upca()     # '909514547523'
+fake.isbn13()   # '9787720405605'
+
+from phoney import generate_financial_data
+generate_financial_data("de_DE")
+# {'credit_card': {'issuer': 'Discover', 'number': '6569070293137587', 'expiry': '06/2031', 'cvv': '256'},
+#  'iban': 'DE29 1D02 4B8D MV7M 7TLL GC', 'bic': 'SIMSDEMMT'}
+```
+
+### Careers and résumés
+
+```python
+fake.job_title(family="software_engineer", level="Senior")
+# {'title': 'Senior Platform Engineer', 'family': 'software_engineer', 'level': 'Senior', 'locale': 'en_US'}
+
+fake.salary(locale="en_GB", family="software_engineer", level="Senior")
+# {'min': 65000, 'max': 90000, 'currency': 'GBP', 'period': 'year', ...}
+
+fake.skills("software_engineer", count=5)
+fake.employment_history(years=8, family="software_engineer")
+fake.experience_level(7)                        # 'Senior'
+
+print(fake.resume(family="software_engineer", years=6, format="text"))
+```
+
+```text
+Krista Villa — Mid Full-Stack Engineer
+kri.villa12@yahoo.com | +1 (474) 452-9078 | Los Angeles, NY United States
+...
+Summary
+6+ years as Mid Full-Stack Engineer. Strong in CI/CD, Java, Unit Testing, SQL, JavaScript.
+```
+
+Use `format="dict"` (the default) to get structured data: experience, education, projects, certifications, languages and more.
+
+### Internet
+
+```python
+fake.tld(locale="en_GB")        # 'co.uk'
+fake.domain(locale="en_GB")     # 'pixel-zcpw.co.uk'
+fake.hostname(locale="en_GB")   # 'cache-q30.echo-dc5v.co.uk'
+fake.url(locale="ja_JP")        # 'https://acme-ii0g.jp/v1/1xjd0?q=umbrella&page=3'
+fake.ipv4(locale="en_GB")       # '90.251.2.27'               (public, from the RIPE region)
+fake.ipv6(locale="ja_JP")       # '2400::9ed2:aa0c:ffd2:1f0a' (global unicast, from the APNIC region)
+fake.mac()                      # '56:e8:f9:a2:f5:8c'
+```
+
+> Every `Phoney` method also has a plain function you can import directly, e.g. `from phoney import generate_phone, generate_vin, generate_resume`.
+
+---
+
+## 📚 API reference
+
+<details>
+<summary><b>All <code>Phoney</code> methods</b></summary>
+
+| Area | Method | Returns |
+|---|---|---|
+| **People** | `first_name(gender=None, locale='en_US')` | First name |
+| | `last_name(gender=None, locale='en_US')` | Last name |
+| | `full_name(gender=None, locale='en_US')` | `"First Last"` |
+| | `gender(locale='en_US')` | `'male'` or `'female'` |
+| | `age(min_age=18, max_age=80)` | `int` |
+| | `birthdate(min_age=18, max_age=80)` | `datetime.date` |
+| | `profile(locale='en_US', gender=None)` | Full profile `dict` |
+| **Contact** | `phone(locale='en_US')` | International-format number |
+| | `email(first_name=None, last_name=None, locale='en_US', age=None, birth_year=None)` | Email address |
+| **Online** | `username(first_name=None, last_name=None, locale='en_US')` | Username |
+| | `password(length=12)` | Password containing upper, lower, digit and symbol |
+| | `social_handle(first_name=None, last_name=None, platform='twitter', locale='en_US')` | Handle (`twitter`, `instagram`, `tiktok`, `github`, ...) |
+| | `online_presence(first_name=None, last_name=None, locale='en_US')` | Username, password and social handles |
+| | `user_agent(device_type='desktop')` | Browser UA (`'desktop'` or `'mobile'`) |
+| | `uuid(version=4)` | UUID v1, v3, v4 or v5 |
+| **Identifiers** | `imei(tac=None)` | 15-digit IMEI |
+| | `vin()` | 17-character VIN |
+| | `ean13(prefix='')` / `upca(prefix='')` | Barcodes |
+| | `isbn13(group_prefix='978')` | ISBN-13 |
+| **Career** | `job_title(family=None, level=None, locale='en_US')` | Title, family, level |
+| | `salary(family=None, level=None, title=None, locale='en_US')` | Range, currency, period |
+| | `skills(family, level=None, count=None)` | List of skills |
+| | `employment_history(years=10, locale='en_US', family=None, min_jobs=1, max_jobs=5)` | List of jobs |
+| | `experience_level(years)` | `'Intern'` … `'Principal'` |
+| | `resume(locale=None, family=None, years=8, format='dict')` | Résumé as a `dict` or `'text'` |
+| **Internet** | `tld(locale=None)` | TLD, weighted by locale (GB → `co.uk`) |
+| | `domain(tld=None, locale=None)` | Domain name |
+| | `hostname(domain=None, locale=None)` | Hostname |
+| | `url(scheme='https', domain=None, path_segments=None, query_params=None, locale=None)` | URL |
+| | `ipv4(country=None, locale=None)` | Public IPv4 |
+| | `ipv6(global_unicast=True, country=None, locale=None)` | IPv6, compressed form |
+| | `mac()` | Locally administered unicast MAC |
+
+Each method also has a `generate_*` twin on the instance and at module level: `fake.generate_vin()` and `phoney.generate_vin()`.
+
+</details>
+
+---
+
+## 🌍 Locales
+
+| Region | Locales with name data |
+|---|---|
+| Europe | `da_DK` `de_DE` `en_GB` `es_ES` `fi_FI` `fr_FR` `it_IT` `nl_NL` `pl_PL` `ru_RU` `sv_SE` `tr_TR` |
+| Americas | `en_US` `pt_BR` |
+| Asia | `hi_IN` `ja_JP` `ko_KR` `zh_CN` |
+| Middle East | `ar_EG` |
+
+**Phone numbers** cover 43 countries across every continent (see `phoney.phone.COUNTRY_CODES`).
+**Salaries** are localised for `en_US`, `en_GB` and `de_DE`. Unknown locales fall back to generic data rather than raising an error.
+
+```python
+from phoney import get_available_locales
+get_available_locales()
 ```
 
 ---
 
-## 📜 License
+## 🛰️ Country-accurate IP ranges (optional)
 
-**MIT** — Free for commercial and personal use.
-Developed by **rarfile** • [Report Issue](https://github.com/rar-file/phoney/issues)
+Out of the box, IPs come from the right regional registry block (RIPE, APNIC, ARIN, LACNIC, AFRINIC). For per-country accuracy, generate prefix files from the registries' published datasets:
 
----
+1. Download the five `delegated-*-extended-latest` files (APNIC, ARIN, RIPE NCC, LACNIC, AFRINIC) into a folder.
+2. Build the prefix files:
 
-## 🧑‍💼 Career Module
-
-Generate job titles, salary ranges, skills, and employment histories. Data loads from `phoney/data/career` when present.
-
-Examples:
-```python
-from phoney import phoney
-phoney.job_title()
-phoney.salary(locale="en_US", family="software_engineer", level="Senior")
-phoney.skills("software_engineer", level="Senior", count=10)
-phoney.employment_history(years=8, locale="en_US", family="software_engineer")
-phoney.experience_level(7)
+```bash
+phoney-build-prefixes --input-dir ./rir-data
+phoney-build-prefixes --input-dir ./rir-data --output-dir ./my-prefixes   # custom output folder
 ```
 
-Data files:
-- `phoney/data/career/job_families.json`
-- `phoney/data/career/skills.json`
-- `phoney/data/career/salary_ranges.<locale>.json`
-- `phoney/data/career/companies.<locale>.txt`
-
-## 🌐 Internet Module
-
-Generate domains, URLs, hostnames, IP addresses, and MAC addresses. Data loads from `phoney/data/internet` when present.
-
-Examples:
-```python
-phoney.tld(locale="en_GB")            # → 'co.uk'
-phoney.domain(locale="en_GB")         # → 'nova-1abc.co.uk'
-phoney.hostname(locale="en_GB")       # → 'api-xyz.nova-1abc.co.uk'
-phoney.url(locale="ja_JP")            # → 'https://alpha-zz9.jp/api/q8h2?page=3'
-phoney.ipv4(locale="en_GB")           # country-aware IPv4 when data present; RIPE fallback otherwise
-phoney.ipv6(locale="ja_JP")           # country/region-aware IPv6; always valid global-unicast
-phoney.mac()
-```
-
-Data files:
-- `phoney/data/internet/tlds.txt`
-- `phoney/data/internet/words.txt`
- - `phoney/data/internet/ipv4_prefixes.<CC>.txt`  (optional, one IPv4 CIDR per line)
- - `phoney/data/internet/ipv6_prefixes.<CC>.txt`  (optional, one IPv6 CIDR per line)
-
-Behavior notes:
-- Locale parsing accepts `en_GB`, `en-GB`, or bare `GB`.
-- IPv4: If `ipv4_prefixes.<CC>.txt` exists, IPs are drawn from those ranges; otherwise a regional fallback is used (e.g., RIPE for Europe, APNIC for Asia/Pacific) and private/reserved ranges are avoided.
-- IPv6: If `ipv6_prefixes.<CC>.txt` exists, IPs are drawn from those ranges; otherwise a regional fallback /12 is used:
-  - RIPE (Europe): `2a00::/12`
-  - APNIC (Asia/Pacific): `2400::/12`
-  - ARIN (North America): `2600::/12`
-  - LACNIC (LatAm): `2800::/12`
-  - AFRINIC (Africa): `2c00::/12`
-  If no locale is provided, a valid global-unicast from `2000::/3` is generated. All IPv6 addresses are returned in canonical compressed form.
-
-## 🆔 Other Identifiers
-
-Generate common test identifiers.
-
-Examples:
-```python
-phoney.imei()                # 15-digit IMEI (Luhn-valid)
-phoney.vin()                 # 17-char VIN with check digit
-phoney.ean13()               # EAN-13 barcode
-phoney.upca()                # UPC-A barcode
-phoney.isbn13()              # ISBN-13 (default group '978')
-```
-
-Populate per-country prefixes automatically (offline):
-1) Download the latest delegated-*-extended-latest files from each RIR to a folder (e.g., `C:/rir-data`):
-  - delegated-apnic-extended-latest
-  - delegated-arin-extended-latest
-  - delegated-ripencc-extended-latest
-  - delegated-lacnic-extended-latest
-  - delegated-afrinic-extended-latest
-2) Run the builder CLI to generate `ipv4_prefixes.<CC>.txt` and `ipv6_prefixes.<CC>.txt` files:
-```powershell
-phoney-build-prefixes --input-dir C:/rir-data
-```
-You can also specify a custom output directory:
-```powershell
-phoney-build-prefixes --input-dir C:/rir-data --output-dir C:/my-prefixes
-```
+On Windows, `tools/fetch_and_build_prefixes.ps1` downloads the files and builds the prefixes in one step.
 
 ---
 
@@ -309,10 +242,42 @@ python -m pip install -e ".[test]"
 python -m pytest
 ```
 
-Every push and pull request runs the test suite on Python 3.10–3.14 and builds the package (`.github/workflows/tests.yml`).
+Every push and pull request runs the tests on Python 3.10–3.14 and checks that the package builds.
 
-### Releasing
+**Releasing:** bump `__version__` in `phoney/__init__.py`, then publish a GitHub release tagged `vX.Y.Z`. The publish workflow tests, builds and uploads to PyPI.
 
-1. Bump `__version__` in `phoney/__init__.py`.
-2. Create a GitHub release tagged `vX.Y.Z` (matching the version).
-3. `.github/workflows/publish.yml` runs the tests, builds, and uploads to PyPI using the `PYPI_API_TOKEN` repository secret.
+---
+
+## 📝 Changelog
+
+<details open>
+<summary><b>0.3.2</b>: bug fixes and cleanup</summary>
+
+- Names are now capitalised (`Marco Rossi`, not `marco rossi`), including Turkish `İ`/`I`
+- Phone numbers for `en_AU`, `fil_PH` and `zh_TW` no longer fail; `id_ID` numbers no longer get a doubled leading `8`
+- Phone generation no longer prints `DEBUG:` lines
+- VIN check digits are now correct for VINs containing the letters J–Z
+- `generate_age()` never goes below `min_age`, and rejects `min_age > max_age`
+- `password(length)` returns exactly `length` characters
+- Added `phoney.__version__`, a pytest suite and GitHub Actions CI
+
+</details>
+
+<details>
+<summary><b>0.3.0</b>: identifiers, internet and career modules</summary>
+
+- New identifiers: IMEI, VIN, EAN-13, UPC-A, ISBN-13
+- Locale-aware IPv4/IPv6 with regional fallbacks; per-country TLD preferences
+- Career module: job titles, salary ranges, skills, employment history
+- `phoney-build-prefixes` CLI
+- Requires Python 3.10+
+
+</details>
+
+---
+
+<div align="center">
+
+**MIT licensed** · Made by **rarfile** · [Report an issue](https://github.com/rar-file/phoney/issues)
+
+</div>
