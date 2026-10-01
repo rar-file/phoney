@@ -28,5 +28,5 @@ foreach ($f in $files) {
 }
 
 Write-Host "Building per-country IPv4/IPv6 prefixes ..."
-& $PythonExe (Join-Path $tools 'build_prefixes.py')
+& $PythonExe (Join-Path $root 'phoney\tools\build_prefixes.py') --input-dir $dataDir
 Write-Host "Done. Files written under phoney/data/internet"

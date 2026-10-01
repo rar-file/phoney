@@ -1,3 +1,5 @@
+__version__ = "0.3.2"
+
 __all__ = [
     'Phoney', 'phoney',
     'generate_person', 'generate_phone', 'generate_email', 'generate_age',
@@ -236,7 +238,7 @@ class Phoney:
         Returns:
             str: Generated password
         """
-        return generate_password(length)
+        return generate_password(length, length)
 
     def social_handle(self, first_name=None, last_name=None, platform='twitter', locale='en_US'):
         """

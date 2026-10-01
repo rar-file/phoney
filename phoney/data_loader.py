@@ -43,10 +43,29 @@ def load_states():
 
 import os
 import random
+import re
 import json
 from collections import defaultdict
 
 BASE_DIR = os.path.join(os.path.dirname(__file__), 'data', 'name_data')
+
+_NAME_SEPARATORS = re.compile(r"([\s'\-])")
+
+def _capitalize_name(name, locale=''):
+    """Capitalize each part of a name ("jean-luc" -> "Jean-Luc").
+
+    Scripts without letter case (CJK, Devanagari, ...) pass through unchanged.
+    """
+    parts = []
+    for part in _NAME_SEPARATORS.split(name):
+        if part:
+            first = part[0]
+            # Turkish distinguishes dotted i (-> İ) from dotless ı (-> I).
+            if locale.startswith('tr') and first == 'i' and part[1:2] != '\u0307':
+                first = '\u0130'
+            part = first.upper() + part[1:]
+        parts.append(part)
+    return ''.join(parts)
 
 def get_available_locales():
     """Get all available locales from the name_data directory."""
@@ -74,7 +93,7 @@ def load_names(locale):
                     file_path = os.path.join(locale_path, f"{gender}.txt")
                     if os.path.exists(file_path):
                         with open(file_path, 'r', encoding='utf-8') as f:
-                            names[gender] = [line.strip() for line in f if line.strip()]
+                            names[gender] = [_capitalize_name(line.strip(), locale) for line in f if line.strip()]
                 break
     except FileNotFoundError:
         pass

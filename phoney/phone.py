@@ -100,16 +100,16 @@ DEFAULT_FORMATS = {
     'ja_JP': '## #### ####',
     'ko_KR': '## #### ####',
     'zh_CN': '### #### ####',
-    'zh_TW': '#### ######',
+    'zh_TW': '### ### ###',
     'hi_IN': '#### ### ###',
-    'id_ID': '8## #### #####',  # Fixed: 11-digit mobile format
+    'id_ID': '### #### ####',  # 11-digit mobile; generate_phone supplies the leading 8
     'th_TH': '### ### ###',
     'vi_VN': '### #######',
     'ms_MY': '### ### ###',
-    'fil_PH': '#### ### ####',
+    'fil_PH': '### ### ####',
     'ar_SA': '## ### ####',
     'he_IL': '## ### ####',
-    'en_AU': '#### ######',
+    'en_AU': '### ### ###',
     'en_NZ': '#### ######',
     'en_ZA': '## ### ####',
     'sw_KE': '### ######',
@@ -185,5 +185,4 @@ def generate_phone(locale=None, max_attempts=500):
 
         return f"+{country_code} {number_str}"
 
-    print(f"DEBUG: Failed to generate valid number for {locale}. Format: {fmt}, Needed: {needed}, Attempts: {max_attempts}")
     raise ValueError(f"Failed to generate valid number for {locale} after {max_attempts} attempts")

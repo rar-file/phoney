@@ -6,7 +6,7 @@ import string
 # VIN excludes I, O, Q
 VIN_CHARS = "ABCDEFGHJKLMNPRSTUVWXYZ0123456789"
 # Transliteration values
-TRANSLIT = {c: v for c, v in zip("ABCDEFGHJKLMNPRSTUVWXYZ", [1,2,3,4,5,6,7,8,9,1,2,3,4,5,7,9,2,3,4,5,6,7,8,9])}
+TRANSLIT = {c: v for c, v in zip("ABCDEFGHJKLMNPRSTUVWXYZ", [1,2,3,4,5,6,7,8,1,2,3,4,5,7,9,2,3,4,5,6,7,8,9])}
 for i in range(10):
     TRANSLIT[str(i)] = i
 # Position weights for check digit

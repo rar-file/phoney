@@ -1,6 +1,6 @@
 # 🌐 Phoney — Realistic Fake Data Generator
 
-Zero-dependency Python library for locale-aware fake personal data. 50+ locales, complete profiles, identifiers (IMEI, VIN, ISBN-13, EAN-13, UPC-A), and deterministic-friendly APIs — for testing, demos, and anonymization pipelines.
+Zero-dependency Python library for locale-aware fake personal data. Names for 19 locales, phone numbers for 43 countries, complete profiles, and checksum-valid identifiers (IMEI, VIN, ISBN-13, EAN-13, UPC-A) — for testing, demos, and anonymization pipelines.
 
 `pip install phoney`
 
@@ -8,12 +8,26 @@ Zero-dependency Python library for locale-aware fake personal data. 50+ locales,
 [![PyPI Downloads](https://static.pepy.tech/badge/phoney)](https://pepy.tech/projects/phoney)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/phoney)](https://pypi.org/project/phoney/)
+[![Tests](https://github.com/rar-file/phoney/actions/workflows/tests.yml/badge.svg)](https://github.com/rar-file/phoney/actions/workflows/tests.yml)
 
 Generate locale-aware fake personal data for testing, development, and anonymization. Perfect for populating databases and creating test users.
 
 ---
 
-## 🆕 What’s new in 0.3.0
+## 🆕 What’s new in 0.3.2
+
+Bug fixes and project cleanup:
+
+- Names are now capitalized (`Marco Rossi`, not `marco rossi`), including Turkish dotted/dotless `İ`/`I`
+- Phone numbers for `en_AU`, `fil_PH` and `zh_TW` no longer fail with `ValueError`; `id_ID` numbers no longer get a doubled leading `8`
+- No more `DEBUG:` lines printed to stdout from phone generation
+- VIN check digits are now correct for VINs containing the letters J–Z
+- `generate_age(min_age, max_age)` never returns an age below `min_age`, and rejects `min_age > max_age`
+- `Phoney().password(length)` returns exactly `length` characters; `generate_password(min_length)` no longer crashes when `min_length` > 18
+- `phoney.__version__` is available
+- New pytest suite and GitHub Actions CI (Python 3.10–3.14); releases publish to PyPI from GitHub
+
+## What’s new in 0.3.0
 
 - New identifiers: IMEI, VIN, EAN-13, UPC-A, ISBN-13
 - All identifier generators are importable directly:
@@ -41,7 +55,7 @@ print(p.generate_imei())
 
 ## ✨ Features
 
-- **50+ locales** including `en_US`, `fr_FR`, `ja_JP`, `de_DE`, and more
+- **Names for 19 locales** and **phone numbers for 43 countries**, including `en_US`, `fr_FR`, `ja_JP`, `de_DE`, and more
 - **Complete profiles** with names, emails, phones, birthdates, and online presence
 - **Gender-specific** name generation
 - **Usernames, passwords, UUIDs, user agents, and social handles**
@@ -67,7 +81,7 @@ phoney = Phoney()
 
 # Individual data
 print(phoney.first_name(locale="it_IT"))  # → "Marco"
-print(phoney.phone(locale="ja_JP"))       # → "+81 90-1234-5678"
+print(phoney.phone(locale="ja_JP"))       # → "+81 90 1234 5678"
 print(phoney.email(first_name="Anna", last_name="Rossi", locale="it_IT"))
 
 # Complete profile
@@ -126,7 +140,7 @@ print(phoney.uuid())
   'age': 34,
   'birthdate': datetime.date(1990, 5, 12),
   'email': 'sophie.martin@example.fr',
-  'phone': '+33 6 12 34 56 78',
+  'phone': '+33 612 345 678',
   'locale': 'fr_FR'
 }
 ```
@@ -187,7 +201,7 @@ You can also import and use the following functions directly:
 
 ## 🌍 Supported Locales
 
-Phoney supports 50+ locales across Asia, Europe, the Middle East, and the Americas. To list all available locales:
+Name data ships for 19 locales: `ar_EG`, `da_DK`, `de_DE`, `en_GB`, `en_US`, `es_ES`, `fi_FI`, `fr_FR`, `hi_IN`, `it_IT`, `ja_JP`, `ko_KR`, `nl_NL`, `pl_PL`, `pt_BR`, `ru_RU`, `sv_SE`, `tr_TR`, `zh_CN`. Phone numbers cover 43 countries (see `phoney.phone.COUNTRY_CODES`). Unknown locales fall back to generic data rather than raising. To list the name locales:
 
 ```python
 from phoney.data_loader import get_available_locales
@@ -199,7 +213,7 @@ print(get_available_locales())
 ## 📜 License
 
 **MIT** — Free for commercial and personal use.
-Developed by **rarfile** • [Report Issue](https://github.com/YTstyo/phoney/issues)
+Developed by **rarfile** • [Report Issue](https://github.com/rar-file/phoney/issues)
 
 ---
 
@@ -283,3 +297,22 @@ You can also specify a custom output directory:
 ```powershell
 phoney-build-prefixes --input-dir C:/rir-data --output-dir C:/my-prefixes
 ```
+
+---
+
+## 🧪 Development
+
+```bash
+git clone https://github.com/rar-file/phoney
+cd phoney
+python -m pip install -e ".[test]"
+python -m pytest
+```
+
+Every push and pull request runs the test suite on Python 3.10–3.14 and builds the package (`.github/workflows/tests.yml`).
+
+### Releasing
+
+1. Bump `__version__` in `phoney/__init__.py`.
+2. Create a GitHub release tagged `vX.Y.Z` (matching the version).
+3. `.github/workflows/publish.yml` runs the tests, builds, and uploads to PyPI using the `PYPI_API_TOKEN` repository secret.
