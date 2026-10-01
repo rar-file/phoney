@@ -54,8 +54,12 @@ _NAME_SEPARATORS = re.compile(r"([\s'\-])")
 def _capitalize_name(name, locale=''):
     """Capitalize each part of a name ("jean-luc" -> "Jean-Luc").
 
-    Scripts without letter case (CJK, Devanagari, ...) pass through unchanged.
+    Names that already contain capitals ("van Dijk", "McDonald") are kept as
+    written, and scripts without letter case (CJK, Devanagari, ...) pass
+    through unchanged.
     """
+    if name != name.lower():
+        return name
     parts = []
     for part in _NAME_SEPARATORS.split(name):
         if part:

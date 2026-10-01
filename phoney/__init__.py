@@ -116,8 +116,7 @@ class Phoney:
         Returns:
             str: Full name.
         """
-        p = generate_person(locale, gender)
-        return f"{p['first_name']} {p['last_name']}"
+        return generate_person(locale, gender)['full_name']
 
     def gender(self, locale='en_US'):
         """

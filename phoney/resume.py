@@ -272,7 +272,7 @@ def _summarize(years: int, title: str, skills: List[str]) -> str:
 def _to_text(cv: Dict[str, Union[str, dict, list]]) -> str:
     p = cv["personal"]
     lines: List[str] = []
-    lines.append(f"{p['first_name']} {p['last_name']} — {cv['headline']}")
+    lines.append(f"{p['full_name']} — {cv['headline']}")
     lines.append(f"{p['email']} | {p['phone']} | {p['location']['city']}, {p['location']['state']} {p['location']['country']}")
     addr = cv.get("address")
     if addr:
@@ -522,6 +522,7 @@ def generate_resume(
         "personal": {
             "first_name": first_name,
             "last_name": last_name,
+            "full_name": person["full_name"],
             "gender": person.get("gender"),
             "email": email,
             "phone": phone,
