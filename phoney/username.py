@@ -144,7 +144,7 @@ def generate_username(first_name: Optional[str] = None, last_name: Optional[str]
     return pattern(first_name.lower(), last_name.lower())
 
 def generate_password(min_length: int = 12, max_length: int = 18) -> str:
-    length = random.randint(min_length, max_length)
+    length = random.randint(min_length, max(min_length, max_length))
     chars = string.ascii_letters + string.digits + "!@#$%^&*()[]{}<>?~"
     while True:
         password = ''.join(secrets.choice(chars) for _ in range(length))
